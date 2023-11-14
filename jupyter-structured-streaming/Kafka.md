@@ -17,20 +17,6 @@ sudo systemctl start kafka
     --zookeeper localhost:2181 \
     --list
 
-# Weather Data
-./s3cat.py s3://dimajix-training/data/weather-sample/ \
-   | /opt/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic weather
-
-/opt/kafka/bin/kafka-console-consumer.sh \
-    --bootstrap-server localhost:9092 \
-    --topic weather \
-    --from-beginning
-
-/opt/kafka/bin/kafka-topics.sh \
-    --zookeeper localhost:2181 \
-    --topic weather \
-    --delete
-
 
 # Twitter Data
 ./s3cat.py s3://dimajix-training/data/twitter-sample/ \
@@ -44,15 +30,16 @@ sudo systemctl start kafka
 /opt/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --topic twitter --delete
 
 
-# Alice in Wonderland
-
-./s3cat.py -T -I1 -B10 s3://dimajix-training/data/alice/alice-in-wonderland.txt \
-   | /opt/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic alice
+# Weather Data
+./s3cat.py s3://dimajix-training/data/weather-sample/ \
+   | /opt/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic weather
 
 /opt/kafka/bin/kafka-console-consumer.sh \
     --bootstrap-server localhost:9092 \
-    --topic alice \
+    --topic weather \
     --from-beginning
 
-/opt/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --topic alice --delete
-
+/opt/kafka/bin/kafka-topics.sh \
+    --zookeeper localhost:2181 \
+    --topic weather \
+    --delete
